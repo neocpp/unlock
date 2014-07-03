@@ -8,15 +8,36 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 
 public class StatisticService extends Service {
-
-	private ScreenBroadcastReceiver mScreenReceiver = new ScreenBroadcastReceiver();
+	private ScreenBroadcastReceiver mScreenReceiver;
 
 	@Override
-	public IBinder onBind(Intent arg0) {
-
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+		mScreenReceiver = new ScreenBroadcastReceiver();
+
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		filter.addAction(Intent.ACTION_USER_PRESENT);
+		registerReceiver(mScreenReceiver, filter);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(mScreenReceiver);
+	}
+
+	/**
+	 * screen״̬�㲥������
+	 */
 	private class ScreenBroadcastReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -29,23 +50,4 @@ public class StatisticService extends Service {
 			}
 		}
 	}
-
-	/**
-	 * 停止screen状态更新
-	 */
-	public void stopScreenStateUpdate() {
-		unregisterReceiver(mScreenReceiver);
-	}
-
-	/**
-	 * 启动screen状态广播接收器
-	 */
-	private void startScreenBroadcastReceiver() {
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(Intent.ACTION_SCREEN_ON);
-		filter.addAction(Intent.ACTION_SCREEN_OFF);
-		filter.addAction(Intent.ACTION_USER_PRESENT);
-		registerReceiver(mScreenReceiver, filter);
-	}
-
 }

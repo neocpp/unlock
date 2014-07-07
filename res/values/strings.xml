@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">com.qihoo.unlock</string>
+    <string name="app_name">unlock</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_unlock_count">解锁次数</string>
+    <string name="count">次</string>
+    <string name="compare">击败全世界用户</string>
+    <string name="share">分享</string>
+    <string name="today_unlock">今日解锁</string>
+    <string name="yesterday_unlock">昨日累计</string>   
+    <string name="day">白天</string>
+    <string name="night">夜晚</string>       
+    
 
 </resources>

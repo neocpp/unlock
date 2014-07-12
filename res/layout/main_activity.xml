@@ -3,48 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_titlebar_height" >
+    <TextView
+        android:id="@+id/unlock_counts"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/circle"
+        android:gravity="center"
+        android:text="00"
+        android:textColor="@color/white"
+        android:textSize="38pt" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/title_unlock_count"
-            android:textColor="@color/white"
-            android:textSize="12pt" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/settings" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/compare_score"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" 
-            android:padding="30dp">
-
-            <TextView
-                android:id="@+id/unlock_counts"
-                android:layout_width="120dp"
-                android:layout_height="120dp" 
-                android:background="@drawable/circle"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="18pt"
-                android:text="0"/>
-        </RelativeLayout>
-    </LinearLayout>
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/compare_percentage"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
+    
+    <TextView
+        android:id="@+id/compare_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/yesterday_count"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
+    
+    <TextView
+        android:id="@+id/compare_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="@string/share"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
 
 </LinearLayout>

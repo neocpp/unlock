@@ -7,12 +7,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends CustomActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_activity);
+		setContentView(R.layout.main_activity, R.layout.main_titlebar_layout);
 
 		refreshData();
 	}

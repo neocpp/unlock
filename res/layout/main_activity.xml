@@ -16,7 +16,7 @@
         android:text="00"
         android:textColor="@color/white"
         android:textSize="38pt" />
-
+    
     <TextView
         android:id="@+id/compare_score"
         android:layout_width="wrap_content"
@@ -27,8 +27,9 @@
         android:textColor="@color/white"
         android:textSize="8pt" />
     
+       
     <TextView
-        android:id="@+id/compare_score"
+        android:id="@+id/yesterday_today"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -38,13 +39,20 @@
         android:textSize="8pt" />
     
     <TextView
-        android:id="@+id/compare_score"
+        android:id="@+id/share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="@string/share"
         android:textColor="@color/white"
         android:textSize="8pt" />
+
+
+        <ExpanableListView
+            android:id="@+id/unlock_detail_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
 
 </LinearLayout>

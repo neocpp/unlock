@@ -16,7 +16,7 @@ import com.qihoo.unlock.utils.TimeUtil;
 public class StatisticService extends Service {
 	private final String TAG = "StatisticService";
 	private ScreenBroadcastReceiver mScreenReceiver;
-	private long startTime = -1;
+	private long startTime = System.currentTimeMillis();
 	private long endTime = -1;
 	private long unlockTime = -1;
 	private long totalTime = 0;
@@ -39,6 +39,7 @@ public class StatisticService extends Service {
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		filter.addAction(Intent.ACTION_USER_PRESENT);
 		registerReceiver(mScreenReceiver, filter);
+		count = UnlockInfoManager.getInstance().getTodayCount();
 	}
 
 	@Override
@@ -54,8 +55,10 @@ public class StatisticService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+				Log.e(TAG, "ACTION_SCREEN_ON");
 				startTime = System.currentTimeMillis();
 			} else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+				Log.e(TAG, "ACTION_SCREEN_OFF");
 				endTime = System.currentTimeMillis();
 
 				// TODO if time is not same day, count and totalTime should be
@@ -102,6 +105,7 @@ public class StatisticService extends Service {
 				}
 				unlockTime = -1;
 			} else if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
+				Log.e(TAG, "ACTION_USER_PRESENT");
 				unlockTime = System.currentTimeMillis();
 				count++;
 			}

@@ -23,11 +23,11 @@ public class UnlockInfo {
 	public UnlockInfo(Cursor cursor) {
 		if(cursor!=null){
 			autoId = cursor.getInt(cursor.getColumnIndex(ProviderData.AUTO_ID));
-			startTime = cursor.getInt(cursor.getColumnIndex(ProviderData.START_TIME));
-			endTime = cursor.getInt(cursor.getColumnIndex(ProviderData.END_TIME));
-			totalTime = cursor.getInt(cursor.getColumnIndex(ProviderData.TOTAL_TIME));
-			totalCount = cursor.getInt(cursor.getColumnIndex(ProviderData.TOTAL_COUNT));
-			unlockTime = cursor.getInt(cursor.getColumnIndex(ProviderData.UNLOCK_TIME));
+			startTime = cursor.getLong(cursor.getColumnIndex(ProviderData.START_TIME));
+			endTime = cursor.getLong(cursor.getColumnIndex(ProviderData.END_TIME));
+			totalTime = cursor.getLong(cursor.getColumnIndex(ProviderData.TOTAL_TIME));
+			totalCount = cursor.getLong(cursor.getColumnIndex(ProviderData.TOTAL_COUNT));
+			unlockTime = cursor.getLong(cursor.getColumnIndex(ProviderData.UNLOCK_TIME));
 		}
 	}
 }

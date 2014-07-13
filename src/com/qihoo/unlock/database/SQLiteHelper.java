@@ -1,6 +1,7 @@
 package com.qihoo.unlock.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -91,5 +92,24 @@ public class SQLiteHelper {
 			cursor.close();
 			return unlockInfos;
 		}
+	}
+
+	public void deleteInfos(final List<UnlockInfo> infos) {
+		if (infos == null || infos.size() < 1) {
+			return;
+		}
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				synchronized (writeDb) {
+					for (UnlockInfo info : infos) {
+						writeDb.delete(ProviderData.UNLOCKINFOS_TABLE_NAME,
+								ProviderData.AUTO_ID + "=?",
+								new String[] { String.valueOf(info.autoId) });
+					}
+				}
+			}
+		});
 	}
 }

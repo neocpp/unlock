@@ -1,24 +1,27 @@
 package com.qihoo.unlock.utils;
 
-import java.util.TimeZone;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TimeUtil {
 	public static final int SECONDS_IN_DAY = 60 * 60 * 24;
 	public static final long MILLIS_IN_DAY = 1000L * SECONDS_IN_DAY;
+	// 白天时长
+	public static final long MILLIS_IN_DAYTIME = 1000L * 60 * 60 * 18;
 
-	public static boolean isSameDayOfMillis(final long ms1, final long ms2) {
-		final long interval = ms1 - ms2;
-		return interval < MILLIS_IN_DAY && interval > -1L * MILLIS_IN_DAY
-				&& toDay(ms1) == toDay(ms2);
+	public static long getStartTimeOfTheDate(long date) {
+		return date / MILLIS_IN_DAY * MILLIS_IN_DAY;
 	}
 
-	private static long toDay(long millis) {
-		// FIXME TimeZone.getDefault().getOffset(millis) ?????
-		return (millis + TimeZone.getDefault().getOffset(millis))
-				/ MILLIS_IN_DAY;
+	public static long getYesterdayStartTimeOfTheDate(long date) {
+		return date / MILLIS_IN_DAY * MILLIS_IN_DAY - MILLIS_IN_DAY;
 	}
-	
-	public static long getStartTimeOfTheDate(long date){
-		return date / MILLIS_IN_DAY * 1000L;
+
+	public static long getNightTimeOfTheDate(long date) {
+		return date / MILLIS_IN_DAY * MILLIS_IN_DAY + MILLIS_IN_DAYTIME;
+	}
+
+	public static String getTimeString(long date) {
+		return new SimpleDateFormat("HH:mm ss").format(new Date(date));
 	}
 }

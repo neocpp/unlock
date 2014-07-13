@@ -5,7 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_unlock_count">解锁次数</string>
-
     <string name="empty_string"></string>
     <string name="compare_percentage">击败全世界?%用户</string>
     <string name="yesterday_count">昨天此时?次 | 今天增加?次</string>
@@ -13,8 +12,8 @@
     <string name="share">分享</string>
     <string name="count">次</string>
     <string name="day">白天</string>
-    <string name="night">夜晚</string>       
-
-    
+    <string name="night">夜晚</string>
+    <string name="detail_list_info">第?次解锁</string>
+    <string name="show_detail">显示详情</string>
 
 </resources>

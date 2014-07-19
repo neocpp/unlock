@@ -7,6 +7,7 @@ public class TimeUtil {
 	public static final int SECONDS_IN_DAY = 60 * 60 * 24;
 	public static final long MILLIS_IN_DAY = 1000L * SECONDS_IN_DAY;
 	// 白天时长
+	public static final long MILLIS_IN_EARLYDAYTIME = 1000L * 60 * 60 * 6;
 	public static final long MILLIS_IN_DAYTIME = 1000L * 60 * 60 * 18;
 
 	public static long getStartTimeOfTheDate(long date) {
@@ -19,6 +20,10 @@ public class TimeUtil {
 
 	public static long getNightTimeOfTheDate(long date) {
 		return date / MILLIS_IN_DAY * MILLIS_IN_DAY + MILLIS_IN_DAYTIME;
+	}
+	
+	public static long getDayTimeOfTheDate(long date) {
+		return date / MILLIS_IN_DAY * MILLIS_IN_DAY + MILLIS_IN_EARLYDAYTIME;
 	}
 
 	public static String getTimeString(long date) {

@@ -1,76 +1,77 @@
 package com.qihoo.unlock;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.RelativeSizeSpan;
-import android.view.View;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.SlidingDrawer;
-import android.widget.SlidingDrawer.OnDrawerCloseListener;
-import android.widget.SlidingDrawer.OnDrawerOpenListener;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.qihoo.unlock.model.UnlockInfoManager;
-import com.qihoo.unlock.view.DetailListAdapter;
+import com.qihoo.unlock.view.CountMainView;
+import com.qihoo.unlock.view.MainPagerAdapter;
+import com.qihoo.unlock.view.MainView;
+import com.qihoo.unlock.view.MyColorBackground;
+import com.qihoo.unlock.view.TimeMainView;
 
-public class MainActivity extends CustomActivity {
-	private DetailListAdapter mAdapter;
+public class MainActivity extends Activity implements OnPageChangeListener {
 
-	@SuppressWarnings("deprecation")
+	private ViewPager mViewPager;
+	private MyColorBackground mBackground;
+	private List<MainView> mViewList;
+	private TextView mTitleText;
+
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.main_activity, R.layout.main_titlebar_layout);
-		ExpandableListView listview = (ExpandableListView) findViewById(R.id.unlock_detail_list);
-		listview.setGroupIndicator(null);
-		mAdapter = new DetailListAdapter(this);
-		listview.setAdapter(mAdapter);
-		listview.setDivider(null);
-		listview.setChildDivider(null);
+		setContentView(R.layout.main_activity);
+		mBackground = MyColorBackground.getInstance();
 
-		SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.sliding_detail);
-		final ImageView arrow = (ImageView) findViewById(R.id.sliding_handle_arrow);
-		final TextView handleText = (TextView) findViewById(R.id.sliding_handle_text);
-		slidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
+		mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
+		mViewList = new ArrayList<MainView>();
+		MainView view = new CountMainView(this);
+		mViewList.add(view);
+		view = new TimeMainView(this);
+		mViewList.add(view);
+		MainPagerAdapter pagerAdapter = new MainPagerAdapter(mViewList);
+		mViewPager.setAdapter(pagerAdapter);
+		mViewPager.setOnPageChangeListener(this);
 
-			@Override
-			public void onDrawerOpened() {
-				handleText.setVisibility(View.GONE);
-				arrow.setImageResource(R.drawable.down_arrow);
-			}
-		});
+		LinearLayout layoutRoot = (LinearLayout) findViewById(R.id.main_layout_root);
+		layoutRoot.setBackground(mBackground);
 
-		slidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener() {
+		mBackground.setChangeLevel(7);
+		mBackground.startAnimation();
 
-			@Override
-			public void onDrawerClosed() {
-				handleText.setVisibility(View.VISIBLE);
-				arrow.setImageResource(R.drawable.up_arrow);
-
-			}
-		});
-
+		mTitleText = (TextView) findViewById(R.id.title);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		refreshData();
 	}
 
-	private void refreshData() {
-		TextView textView = (TextView) findViewById(R.id.unlock_counts);
-		long countLong = UnlockInfoManager.getInstance().getTodayCount();
-		String count = String.valueOf(countLong) + getString(R.string.count);
-		SpannableStringBuilder style = new SpannableStringBuilder(count);
-		style.setSpan(new RelativeSizeSpan(0.3f), count.length() - 1,
-				count.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		textView.setText(style);
-		mAdapter.notifyDataSetChanged();
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPageSelected(int index) {
+		mTitleText.setText(mViewList.get(index).getTitleId());
+		mBackground.startAnimation();
 	}
 
 }

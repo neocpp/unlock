@@ -87,7 +87,7 @@ public class DetailListAdapter extends BaseExpandableListAdapter {
 			style.setSpan(new RelativeSizeSpan(0.8f), text.length() - 2,
 					text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			holder.time.setText(style);
-			String info = mContext.getString(R.string.detail_list_info);
+			String info = mContext.getString(R.string.detail_list_info_count);
 			holder.info.setText(info.replace("?",
 					String.valueOf(child.totalCount)));
 

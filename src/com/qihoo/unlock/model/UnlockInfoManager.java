@@ -49,21 +49,25 @@ public class UnlockInfoManager {
 
 	public ArrayList<ArrayList<UnlockInfo>> getTodayUnlockInfos() {
 		ArrayList<ArrayList<UnlockInfo>> result = new ArrayList<ArrayList<UnlockInfo>>();
+		ArrayList<UnlockInfo> earlydayinfos = new ArrayList<UnlockInfo>();
 		ArrayList<UnlockInfo> dayinfos = new ArrayList<UnlockInfo>();
 		ArrayList<UnlockInfo> nightinfos = new ArrayList<UnlockInfo>();
-		long dayTimeApart = TimeUtil.getNightTimeOfTheDate(System
-				.currentTimeMillis());
-		long dayTimeStart = TimeUtil.getStartTimeOfTheDate(System
-				.currentTimeMillis());
+		long cur = System.currentTimeMillis();
+		long nightTimeApart = TimeUtil.getNightTimeOfTheDate(cur);
+		long dayTimeApart = TimeUtil.getDayTimeOfTheDate(cur);
+		long dayTimeStart = TimeUtil.getStartTimeOfTheDate(cur);
 		for (UnlockInfo info : unlockInfos) {
 			if (info.unlockTime > dayTimeStart) {
 				if (info.unlockTime < dayTimeApart) {
+					earlydayinfos.add(info);
+				} else if( info.unlockTime < nightTimeApart){
 					dayinfos.add(info);
 				} else {
 					nightinfos.add(info);
 				}
 			}
 		}
+		result.add(earlydayinfos);
 		result.add(dayinfos);
 		result.add(nightinfos);
 		return result;

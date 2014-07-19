@@ -4,16 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 @SuppressLint("NewApi")
-abstract public class CustomActivity extends Activity {
+public class CustomActivity extends Activity {
+	private TextView mTitle;
 
 	public void setContentView(View view, int custom_title_layout_id) {
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		super.setContentView(view);
 
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				custom_title_layout_id);
+		init(custom_title_layout_id);
 
 	}
 
@@ -21,9 +22,18 @@ abstract public class CustomActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		super.setContentView(layoutResID);
 
+		init(custom_title_layout_id);
+
+	}
+
+	private void init(int custom_title_layout_id) {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				custom_title_layout_id);
+		mTitle = (TextView) findViewById(R.id.title);
+	}
 
+	public void setMainTitle(int id) {
+		mTitle.setText(id);
 	}
 
 }

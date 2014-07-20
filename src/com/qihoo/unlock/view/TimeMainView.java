@@ -1,10 +1,12 @@
 package com.qihoo.unlock.view;
 
-import com.qihoo.unlock.R;
-
 import android.content.Context;
 
-public class TimeMainView extends MainView{
+import com.qihoo.unlock.R;
+import com.qihoo.unlock.model.UnlockInfoManager;
+import com.qihoo.unlock.utils.TimeUtil;
+
+public class TimeMainView extends MainView {
 
 	public TimeMainView(Context context) {
 		super(context);
@@ -14,13 +16,13 @@ public class TimeMainView extends MainView{
 	@Override
 	protected long getTodayTotal() {
 		// TODO Auto-generated method stub
-		return 0;
+		return TimeUtil.toMinute(UnlockInfoManager.getInstance().getTodayTime());
 	}
 
 	@Override
 	protected long getYesterdayTotal() {
 		// TODO Auto-generated method stub
-		return 0;
+		return TimeUtil.toMinute(UnlockInfoManager.getInstance().getYesterdayTime());
 	}
 
 	@Override

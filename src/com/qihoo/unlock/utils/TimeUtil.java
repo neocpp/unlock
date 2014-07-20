@@ -21,12 +21,20 @@ public class TimeUtil {
 	public static long getNightTimeOfTheDate(long date) {
 		return date / MILLIS_IN_DAY * MILLIS_IN_DAY + MILLIS_IN_DAYTIME;
 	}
-	
+
 	public static long getDayTimeOfTheDate(long date) {
 		return date / MILLIS_IN_DAY * MILLIS_IN_DAY + MILLIS_IN_EARLYDAYTIME;
 	}
 
 	public static String getTimeString(long date) {
 		return new SimpleDateFormat("HH:mm ss").format(new Date(date));
+	}
+
+	public static long getOneDayTime() {
+		return MILLIS_IN_DAY;
+	}
+
+	public static long toMinute(long millonSecond) {
+		return millonSecond / 1000 / 60;
 	}
 }

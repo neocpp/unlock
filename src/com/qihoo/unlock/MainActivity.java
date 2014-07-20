@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.qihoo.unlock.utils.IncrementAnimationUtil;
 import com.qihoo.unlock.view.CountMainView;
 import com.qihoo.unlock.view.MainPagerAdapter;
 import com.qihoo.unlock.view.MainView;
@@ -30,7 +31,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main_activity);
-		mBackground = MyColorBackground.getInstance();
+		mBackground = new MyColorBackground();
 
 		mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
 		mViewList = new ArrayList<MainView>();
@@ -45,8 +46,9 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 		LinearLayout layoutRoot = (LinearLayout) findViewById(R.id.main_layout_root);
 		layoutRoot.setBackground(mBackground);
 
-		mBackground.setChangeLevel(7);
-		mBackground.startAnimation();
+		IncrementAnimationUtil.getInstance().addObserver(mBackground);
+		IncrementAnimationUtil.getInstance().setChangeLevel(5);
+		IncrementAnimationUtil.getInstance().startAnimation();
 
 		mTitleText = (TextView) findViewById(R.id.title);
 	}
@@ -71,7 +73,8 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 	@Override
 	public void onPageSelected(int index) {
 		mTitleText.setText(mViewList.get(index).getTitleId());
-		mBackground.startAnimation();
+		mViewList.get(index).refreshData();
+		IncrementAnimationUtil.getInstance().startAnimation();
 	}
 
 }

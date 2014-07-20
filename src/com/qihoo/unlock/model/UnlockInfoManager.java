@@ -3,8 +3,6 @@ package com.qihoo.unlock.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import com.qihoo.unlock.database.SQLiteHelper;
@@ -14,12 +12,10 @@ public class UnlockInfoManager {
 	private final String TAG = "UnlockInfoManager";
 	private List<UnlockInfo> unlockInfos;
 	private static volatile UnlockInfoManager instance;
-	private Handler mHandler;
 
 	private UnlockInfoManager() {
 		unlockInfos = SQLiteHelper.getInstance().getUnlockInfos();
 		clearRedundance();
-		mHandler = new Handler(Looper.getMainLooper());
 	}
 
 	public static UnlockInfoManager getInstance() {
@@ -60,7 +56,7 @@ public class UnlockInfoManager {
 			if (info.unlockTime > dayTimeStart) {
 				if (info.unlockTime < dayTimeApart) {
 					earlydayinfos.add(info);
-				} else if( info.unlockTime < nightTimeApart){
+				} else if (info.unlockTime < nightTimeApart) {
 					dayinfos.add(info);
 				} else {
 					nightinfos.add(info);
@@ -74,8 +70,7 @@ public class UnlockInfoManager {
 	}
 
 	private void clearRedundance() {
-		long yesterdayStartTime = TimeUtil
-				.getYesterdayStartTimeOfTheDate(System.currentTimeMillis());
+		long yesterdayStartTime = TimeUtil.getYesterdayStartTimeOfTheDate(System.currentTimeMillis());
 
 		List<UnlockInfo> redundance = new ArrayList<UnlockInfo>();
 		for (UnlockInfo info : unlockInfos) {
@@ -96,6 +91,47 @@ public class UnlockInfoManager {
 		} else {
 			return 0;
 		}
+	}
+
+	public long getYesterdayCount() {
+		long time = System.currentTimeMillis() - TimeUtil.getOneDayTime();
+		long count = 0;
+		synchronized (unlockInfos) {
+			for (UnlockInfo info : unlockInfos) {
+				if (info.unlockTime > 0 && info.unlockTime < time) {
+					count = info.totalCount;
+				} else if (info.unlockTime > time) {
+					break;
+				}
+			}
+		}
+		return count;
+	}
+
+	public long getTodayTime() {
+		if (unlockInfos.size() > 0) {
+			return unlockInfos.get(unlockInfos.size() - 1).totalTime;
+		} else {
+			return 0;
+		}
+	}
+
+	public long getYesterdayTime() {
+		long time = System.currentTimeMillis() - TimeUtil.getOneDayTime();
+		long result = 0;
+		synchronized (unlockInfos) {
+			for (UnlockInfo info : unlockInfos) {
+				if (info.endTime > 0 && info.endTime < time) {
+					result = info.totalTime;
+				} else if (info.endTime > time) {
+					if (info.startTime < time) {
+						result += (time - info.startTime);
+					}
+					break;
+				}
+			}
+		}
+		return result;
 	}
 
 }

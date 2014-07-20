@@ -2,8 +2,9 @@ package com.qihoo.unlock.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
@@ -20,6 +21,7 @@ import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.TextView;
 
 import com.qihoo.unlock.R;
+import com.qihoo.unlock.utils.IncrementAnimationUtil;
 
 abstract public class MainView extends LinearLayout {
 	private DetailListAdapter mAdapter;
@@ -29,6 +31,7 @@ abstract public class MainView extends LinearLayout {
 	private TextView totdayAddText;
 	private Context mContext;
 	private SlidingDrawer slidingDrawer;
+	ProgressCircle progressBack;
 
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
@@ -38,6 +41,11 @@ abstract public class MainView extends LinearLayout {
 		LayoutInflater.from(context).inflate(R.layout.main_view, this);
 
 		todayTotalText = (TextView) findViewById(R.id.unlock_counts);
+		BitmapDrawable bmpDraw = (BitmapDrawable) getResources().getDrawable(R.drawable.circle_under);
+		Bitmap bmp = bmpDraw.getBitmap();
+		progressBack = new ProgressCircle(bmp);
+		IncrementAnimationUtil.getInstance().addObserver(progressBack);
+		todayTotalText.setBackground(progressBack);
 		yesterdayTotalText = (TextView) findViewById(R.id.yesterday_total);
 		totdayAddText = (TextView) findViewById(R.id.today_add);
 
@@ -47,12 +55,17 @@ abstract public class MainView extends LinearLayout {
 		mListView.setAdapter(mAdapter);
 		mListView.setDivider(null);
 		mListView.setChildDivider(null);
+		MyColorBackground background = new MyColorBackground();
+		IncrementAnimationUtil.getInstance().addObserver(background);
+		mListView.setBackground(background);
 
 		slidingDrawer = (SlidingDrawer) findViewById(R.id.sliding_detail);
 		final ImageView arrow = (ImageView) findViewById(R.id.sliding_handle_arrow);
 		final TextView handleText = (TextView) findViewById(R.id.sliding_handle_text);
 		final ViewGroup slidingHandle = (ViewGroup) findViewById(R.id.sliding_handle);
-		slidingHandle.setBackgroundColor(Color.parseColor("#44444444"));
+		SlidingHandleDrawable slidingDrawable = new SlidingHandleDrawable();
+		IncrementAnimationUtil.getInstance().addObserver(slidingDrawable);
+		slidingHandle.setBackground(slidingDrawable);
 
 		slidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
 
@@ -60,8 +73,6 @@ abstract public class MainView extends LinearLayout {
 			public void onDrawerOpened() {
 				handleText.setVisibility(View.GONE);
 				arrow.setImageResource(R.drawable.down_arrow);
-				mListView.setBackgroundColor(MyColorBackground.getInstance()
-						.getColor());
 			}
 		});
 
@@ -78,7 +89,7 @@ abstract public class MainView extends LinearLayout {
 		refreshData();
 	}
 
-	private void refreshData() {
+	public void refreshData() {
 		long today = getTodayTotal();
 		long yesterday = getYesterdayTotal();
 		String unit = mContext.getString(getUnitId());
@@ -86,8 +97,7 @@ abstract public class MainView extends LinearLayout {
 
 		strBuilder.append(String.valueOf(today));
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(0.3f), strBuilder.length()
-				- unit.length(), strBuilder.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(0.3f), strBuilder.length() - unit.length(), strBuilder.length(),
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		todayTotalText.setText(strBuilder);
 
@@ -96,11 +106,9 @@ abstract public class MainView extends LinearLayout {
 		String data = String.valueOf(yesterday);
 		strBuilder.append(data);
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length()
-				- data.length() - unit.length(), strBuilder.length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
-				strBuilder.length() - data.length() - unit.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length() - data.length() - unit.length(),
+				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), strBuilder.length() - data.length() - unit.length(),
 				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		yesterdayTotalText.setText(strBuilder);
 
@@ -109,16 +117,15 @@ abstract public class MainView extends LinearLayout {
 		data = String.valueOf(today - yesterday);
 		strBuilder.append(data);
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length()
-				- data.length() - unit.length(), strBuilder.length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
-				strBuilder.length() - data.length() - unit.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length() - data.length() - unit.length(),
+				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), strBuilder.length() - data.length() - unit.length(),
 				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		totdayAddText.setText(strBuilder);
 
 		mAdapter.notifyDataSetChanged();
 
+		progressBack.reset();
 	}
 
 	abstract protected long getTodayTotal();

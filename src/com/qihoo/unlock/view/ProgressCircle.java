@@ -16,9 +16,9 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 
+import com.qihoo.unlock.utils.DampingInterpolater;
 import com.qihoo.unlock.utils.IncrementAnimationUtil.NotifyData;
 
 public class ProgressCircle extends Drawable implements Observer {
@@ -146,10 +146,10 @@ public class ProgressCircle extends Drawable implements Observer {
 	}
 
 	class MyHandler extends Handler {
-		private long INTERVAL = 40;
-		private float STEP = 50;
+		private long INTERVAL = 50;
+		private float STEP = 80;
 
-		private Interpolator interpolator = new BounceInterpolator();
+		private Interpolator interpolator = new DampingInterpolater(0.2, 1);
 		private float angle = 0;
 		private float curStep = 0;
 		private float oldStartAngle;
@@ -169,7 +169,7 @@ public class ProgressCircle extends Drawable implements Observer {
 				curStep++;
 				sendEmptyMessageDelayed(0, INTERVAL);
 			} else {
-				startAngle = oldStartAngle + interpolator.getInterpolation(1f) * angle;
+				startAngle = oldStartAngle + angle;
 			}
 			invalidateSelf();
 		}

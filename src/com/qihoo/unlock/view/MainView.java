@@ -41,7 +41,8 @@ abstract public class MainView extends LinearLayout {
 		LayoutInflater.from(context).inflate(R.layout.main_view, this);
 
 		todayTotalText = (TextView) findViewById(R.id.unlock_counts);
-		BitmapDrawable bmpDraw = (BitmapDrawable) getResources().getDrawable(R.drawable.circle_under);
+		BitmapDrawable bmpDraw = (BitmapDrawable) getResources().getDrawable(
+				R.drawable.circle_under);
 		Bitmap bmp = bmpDraw.getBitmap();
 		progressBack = new ProgressCircle(bmp);
 		IncrementAnimationUtil.getInstance().addObserver(progressBack);
@@ -51,7 +52,7 @@ abstract public class MainView extends LinearLayout {
 
 		mListView = (ExpandableListView) findViewById(R.id.unlock_detail_list);
 		mListView.setGroupIndicator(null);
-		mAdapter = new DetailListAdapter(context);
+		mAdapter = createAdapter(context);
 		mListView.setAdapter(mAdapter);
 		mListView.setDivider(null);
 		mListView.setChildDivider(null);
@@ -73,6 +74,12 @@ abstract public class MainView extends LinearLayout {
 			public void onDrawerOpened() {
 				handleText.setVisibility(View.GONE);
 				arrow.setImageResource(R.drawable.down_arrow);
+				mAdapter.refreshData();
+				mAdapter.notifyDataSetChanged();
+				int n = mListView.getCount();
+				for (int i = 0; i < n; i++) {
+					mListView.expandGroup(i);
+				}
 			}
 		});
 
@@ -97,7 +104,8 @@ abstract public class MainView extends LinearLayout {
 
 		strBuilder.append(String.valueOf(today));
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(0.3f), strBuilder.length() - unit.length(), strBuilder.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(0.3f), strBuilder.length()
+				- unit.length(), strBuilder.length(),
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		todayTotalText.setText(strBuilder);
 
@@ -106,9 +114,11 @@ abstract public class MainView extends LinearLayout {
 		String data = String.valueOf(yesterday);
 		strBuilder.append(data);
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length() - data.length() - unit.length(),
-				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), strBuilder.length() - data.length() - unit.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length()
+				- data.length() - unit.length(), strBuilder.length(),
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
+				strBuilder.length() - data.length() - unit.length(),
 				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		yesterdayTotalText.setText(strBuilder);
 
@@ -117,9 +127,11 @@ abstract public class MainView extends LinearLayout {
 		data = String.valueOf(today - yesterday);
 		strBuilder.append(data);
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length() - data.length() - unit.length(),
-				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), strBuilder.length() - data.length() - unit.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length()
+				- data.length() - unit.length(), strBuilder.length(),
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
+				strBuilder.length() - data.length() - unit.length(),
 				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		totdayAddText.setText(strBuilder);
 
@@ -135,4 +147,6 @@ abstract public class MainView extends LinearLayout {
 	abstract protected int getUnitId();
 
 	abstract public int getTitleId();
+	
+	abstract DetailListAdapter createAdapter(Context context);
 }

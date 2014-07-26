@@ -37,4 +37,10 @@ public class TimeMainView extends MainView {
 		return R.string.title_use_time;
 	}
 
+	@Override
+	DetailListAdapter createAdapter(Context context) {
+		// TODO Auto-generated method stub
+		return new TimeDetailListAdapter(context);
+	}
+
 }

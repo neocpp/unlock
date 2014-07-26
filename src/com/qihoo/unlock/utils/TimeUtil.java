@@ -1,7 +1,9 @@
 package com.qihoo.unlock.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class TimeUtil {
 	public static final int SECONDS_IN_DAY = 60 * 60 * 24;
@@ -11,19 +13,23 @@ public class TimeUtil {
 	public static final long MILLIS_IN_DAYTIME = 1000L * 60 * 60 * 18;
 
 	public static long getStartTimeOfTheDate(long date) {
-		return date / MILLIS_IN_DAY * MILLIS_IN_DAY;
+		Calendar calendar = new GregorianCalendar();
+		long offset = calendar.getTimeZone().getOffset(
+				System.currentTimeMillis());
+
+		return date / MILLIS_IN_DAY * MILLIS_IN_DAY - offset;
 	}
 
 	public static long getYesterdayStartTimeOfTheDate(long date) {
-		return date / MILLIS_IN_DAY * MILLIS_IN_DAY - MILLIS_IN_DAY;
+		return getStartTimeOfTheDate(date) - MILLIS_IN_DAY;
 	}
 
 	public static long getNightTimeOfTheDate(long date) {
-		return date / MILLIS_IN_DAY * MILLIS_IN_DAY + MILLIS_IN_DAYTIME;
+		return getStartTimeOfTheDate(date) + MILLIS_IN_DAYTIME;
 	}
 
 	public static long getDayTimeOfTheDate(long date) {
-		return date / MILLIS_IN_DAY * MILLIS_IN_DAY + MILLIS_IN_EARLYDAYTIME;
+		return getStartTimeOfTheDate(date) + MILLIS_IN_EARLYDAYTIME;
 	}
 
 	public static String getTimeString(long date) {

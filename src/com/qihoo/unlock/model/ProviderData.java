@@ -9,6 +9,7 @@ public class ProviderData {
 	public static final String START_TIME = "startTime";
 	public static final String END_TIME = "endTime";
 	public static final String TOTAL_TIME = "totalTime";
+	public static final String ITEM_TOTAL_TIME = "itemTotalTime";
 	public static final String UNLOCK_TIME = "unlockTime";
 	public static final String TOTAL_COUNT = "totalCount";
 

@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 		layoutRoot.setBackground(mBackground);
 
 		IncrementAnimationUtil.getInstance().addObserver(mBackground);
-		IncrementAnimationUtil.getInstance().setChangeLevel(5);
+		IncrementAnimationUtil.getInstance().setChangeLevel(1);
 		IncrementAnimationUtil.getInstance().startAnimation();
 
 		mTitleText = (TextView) findViewById(R.id.title);
@@ -56,6 +56,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		mViewList.get(mViewPager.getCurrentItem()).refreshData();
 	}
 
 	@Override

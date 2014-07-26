@@ -7,27 +7,36 @@ public class UnlockInfo {
 	public long startTime;
 	public long endTime;
 	public long totalTime;
+	public long itemTotalTime;
 	public long totalCount;
 	public long unlockTime;
 
 	public String toString() {
 		return "UnlockInfo [ startTime=" + startTime + ",endTime=" + endTime
-				+ ",totalTime=" + totalTime + ",totalCount=" + totalCount
-				+ ",unlockTime=" + unlockTime + " ]";
+				+ ",totalTime=" + totalTime + ", itemTotalTime="
+				+ itemTotalTime + ",totalCount=" + totalCount + ",unlockTime="
+				+ unlockTime + " ]";
 	}
-	
-	public UnlockInfo(){
-		
+
+	public UnlockInfo() {
+
 	}
 
 	public UnlockInfo(Cursor cursor) {
-		if(cursor!=null){
+		if (cursor != null) {
 			autoId = cursor.getInt(cursor.getColumnIndex(ProviderData.AUTO_ID));
-			startTime = cursor.getLong(cursor.getColumnIndex(ProviderData.START_TIME));
-			endTime = cursor.getLong(cursor.getColumnIndex(ProviderData.END_TIME));
-			totalTime = cursor.getLong(cursor.getColumnIndex(ProviderData.TOTAL_TIME));
-			totalCount = cursor.getLong(cursor.getColumnIndex(ProviderData.TOTAL_COUNT));
-			unlockTime = cursor.getLong(cursor.getColumnIndex(ProviderData.UNLOCK_TIME));
+			startTime = cursor.getLong(cursor
+					.getColumnIndex(ProviderData.START_TIME));
+			endTime = cursor.getLong(cursor
+					.getColumnIndex(ProviderData.END_TIME));
+			totalTime = cursor.getLong(cursor
+					.getColumnIndex(ProviderData.TOTAL_TIME));
+			itemTotalTime = cursor.getLong(cursor
+					.getColumnIndex(ProviderData.ITEM_TOTAL_TIME));
+			totalCount = cursor.getLong(cursor
+					.getColumnIndex(ProviderData.TOTAL_COUNT));
+			unlockTime = cursor.getLong(cursor
+					.getColumnIndex(ProviderData.UNLOCK_TIME));
 		}
 	}
 }

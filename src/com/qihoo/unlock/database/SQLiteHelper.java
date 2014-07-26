@@ -69,6 +69,7 @@ public class SQLiteHelper {
 				values.put(ProviderData.START_TIME, info.startTime);
 				values.put(ProviderData.END_TIME, info.endTime);
 				values.put(ProviderData.TOTAL_TIME, info.totalTime);
+				values.put(ProviderData.ITEM_TOTAL_TIME, info.itemTotalTime);
 				values.put(ProviderData.UNLOCK_TIME, info.unlockTime);
 				values.put(ProviderData.TOTAL_COUNT, info.totalCount);
 				synchronized (writeDb) {
@@ -80,7 +81,7 @@ public class SQLiteHelper {
 	}
 
 	public ArrayList<UnlockInfo> getUnlockInfos() {
-		String sql = "SELECT autoId, startTime, endTime, totalTime, unlockTime, totalCount FROM "
+		String sql = "SELECT autoId, startTime, endTime, totalTime, itemTotalTime, unlockTime, totalCount FROM "
 				+ ProviderData.UNLOCKINFOS_TABLE_NAME + ";";
 		synchronized (readDb) {
 			Cursor cursor = readDb.rawQuery(sql, null);

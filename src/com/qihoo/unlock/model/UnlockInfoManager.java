@@ -1,6 +1,9 @@
 package com.qihoo.unlock.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import android.util.Log;
@@ -50,11 +53,18 @@ public class UnlockInfoManager {
 		ArrayList<UnlockInfo> nightinfos = new ArrayList<UnlockInfo>();
 		long cur = System.currentTimeMillis();
 		long nightTimeApart = TimeUtil.getNightTimeOfTheDate(cur);
-		long dayTimeApart = TimeUtil.getDayTimeOfTheDate(cur);
+		long earlyDayTimeApart = TimeUtil.getDayTimeOfTheDate(cur);
 		long dayTimeStart = TimeUtil.getStartTimeOfTheDate(cur);
+
+		Log.e(TAG, "current time: " + cur);
+		Log.e(TAG, new SimpleDateFormat("yyyy:MM:dd:HH:mm ss").format(new Date(
+				cur)));
+		Log.e(TAG, "start time: " + dayTimeStart);
+		Log.e(TAG, "earlyDay time: " + earlyDayTimeApart);
+		Log.e(TAG, "night day time: " + nightTimeApart);
 		for (UnlockInfo info : unlockInfos) {
 			if (info.unlockTime > dayTimeStart) {
-				if (info.unlockTime < dayTimeApart) {
+				if (info.unlockTime < earlyDayTimeApart) {
 					earlydayinfos.add(info);
 				} else if (info.unlockTime < nightTimeApart) {
 					dayinfos.add(info);
@@ -63,14 +73,64 @@ public class UnlockInfoManager {
 				}
 			}
 		}
-		result.add(earlydayinfos);
-		result.add(dayinfos);
-		result.add(nightinfos);
+		Collections.reverse(nightinfos);
+		Collections.reverse(dayinfos);
+		Collections.reverse(earlydayinfos);
+
+		if (nightinfos.size() > 0) {
+			result.add(nightinfos);
+			result.add(dayinfos);
+			result.add(earlydayinfos);
+		} else if (dayinfos.size() > 0) {
+			result.add(dayinfos);
+			result.add(earlydayinfos);
+		} else if (earlydayinfos.size() > 0) {
+			result.add(earlydayinfos);
+		}
+		return result;
+	}
+	
+	public ArrayList<ArrayList<UnlockInfo>> getTodayTimeInfos() {
+		ArrayList<ArrayList<UnlockInfo>> result = new ArrayList<ArrayList<UnlockInfo>>();
+		ArrayList<UnlockInfo> earlydayinfos = new ArrayList<UnlockInfo>();
+		ArrayList<UnlockInfo> dayinfos = new ArrayList<UnlockInfo>();
+		ArrayList<UnlockInfo> nightinfos = new ArrayList<UnlockInfo>();
+		long cur = System.currentTimeMillis();
+		long nightTimeApart = TimeUtil.getNightTimeOfTheDate(cur);
+		long earlyDayTimeApart = TimeUtil.getDayTimeOfTheDate(cur);
+		long dayTimeStart = TimeUtil.getStartTimeOfTheDate(cur);
+
+		for (UnlockInfo info : unlockInfos) {
+			if (info.startTime >= dayTimeStart) {
+				if (info.startTime < earlyDayTimeApart) {
+					earlydayinfos.add(info);
+				} else if (info.startTime < nightTimeApart) {
+					dayinfos.add(info);
+				} else {
+					nightinfos.add(info);
+				}
+			}
+		}
+		Collections.reverse(nightinfos);
+		Collections.reverse(dayinfos);
+		Collections.reverse(earlydayinfos);
+
+		if (nightinfos.size() > 0) {
+			result.add(nightinfos);
+			result.add(dayinfos);
+			result.add(earlydayinfos);
+		} else if (dayinfos.size() > 0) {
+			result.add(dayinfos);
+			result.add(earlydayinfos);
+		} else if (earlydayinfos.size() > 0) {
+			result.add(earlydayinfos);
+		}
 		return result;
 	}
 
 	private void clearRedundance() {
-		long yesterdayStartTime = TimeUtil.getYesterdayStartTimeOfTheDate(System.currentTimeMillis());
+		long yesterdayStartTime = TimeUtil
+				.getYesterdayStartTimeOfTheDate(System.currentTimeMillis());
 
 		List<UnlockInfo> redundance = new ArrayList<UnlockInfo>();
 		for (UnlockInfo info : unlockInfos) {

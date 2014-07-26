@@ -40,6 +40,7 @@ public class StatisticService extends Service {
 		filter.addAction(Intent.ACTION_USER_PRESENT);
 		registerReceiver(mScreenReceiver, filter);
 		count = UnlockInfoManager.getInstance().getTodayCount();
+		totalTime = UnlockInfoManager.getInstance().getTodayTime();
 	}
 
 	@Override
@@ -68,7 +69,8 @@ public class StatisticService extends Service {
 					UnlockInfo info = new UnlockInfo();
 					info.startTime = startTime;
 					info.endTime = endTime;
-					totalTime += (endTime - startTime);
+					info.itemTotalTime = (endTime - startTime);
+					totalTime += info.itemTotalTime;
 					info.totalTime = totalTime;
 					info.unlockTime = unlockTime;
 					info.totalCount = count;
@@ -82,9 +84,11 @@ public class StatisticService extends Service {
 					info2.startTime = apartTime;
 					info1.endTime = apartTime;
 					info2.endTime = endTime;
-					totalTime += (apartTime - startTime);
+					info1.itemTotalTime = (apartTime - startTime);
+					totalTime += info1.itemTotalTime;
 					info1.totalTime = totalTime;
-					totalTime = endTime - apartTime;
+					info2.itemTotalTime = endTime - apartTime;
+					totalTime = info2.itemTotalTime;
 					info2.totalTime = totalTime;
 					if (unlockTime != -1 && !DateUtils.isToday(unlockTime)) {
 						// unlock yesterday

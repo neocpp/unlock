@@ -13,10 +13,11 @@
     <string name="share">分享</string>
     <string name="count">次</string>
     <string name="minute">分钟</string>
+    <string name="earlyday">凌晨</string>
     <string name="day">白天</string>
     <string name="night">夜晚</string>
     <string name="detail_list_info_count">第?次解锁</string>
-    <string name="detail_list_info_time">第?次 使用?分钟</string>
+    <string name="detail_list_info_time">第n次 使用?分钟</string>
     <string name="show_detail">显示详情</string>
 
 </resources>

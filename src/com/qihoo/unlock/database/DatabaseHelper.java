@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public void createdTables(SQLiteDatabase db) {
 		Log.d(TAG, "createdTables");
-		String unlockinfos = "CREATE TABLE IF NOT EXISTS unlockinfos(autoId integer PRIMARY KEY autoincrement default NULL, startTime long, endTime long, totalTime long, unlockTime long, totalCount long);";
+		String unlockinfos = "CREATE TABLE IF NOT EXISTS unlockinfos(autoId integer PRIMARY KEY autoincrement default NULL, startTime long, endTime long, totalTime long, itemTotalTime long, unlockTime long, totalCount long);";
 
 		db.execSQL(unlockinfos);
 	}

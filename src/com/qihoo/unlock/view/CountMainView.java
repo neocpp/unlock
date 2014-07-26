@@ -34,4 +34,10 @@ public class CountMainView extends MainView{
 		return R.string.title_unlock_count;
 	}
 
+	@Override
+	DetailListAdapter createAdapter(Context context) {
+		// TODO Auto-generated method stub
+		return new UnlockDetailListAdapter(context);
+	}
+
 }

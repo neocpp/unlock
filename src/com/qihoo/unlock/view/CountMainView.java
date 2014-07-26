@@ -19,7 +19,7 @@ public class CountMainView extends MainView{
 	@Override
 	protected long getYesterdayTotal() {
 		// TODO Auto-generated method stub
-		return 0;
+		return UnlockInfoManager.getInstance().getYesterdayCount();
 	}
 
 	@Override

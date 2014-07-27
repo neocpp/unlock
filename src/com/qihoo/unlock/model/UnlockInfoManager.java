@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.qihoo.unlock.database.SQLiteHelper;
@@ -89,7 +90,7 @@ public class UnlockInfoManager {
 		}
 		return result;
 	}
-	
+
 	public ArrayList<ArrayList<UnlockInfo>> getTodayTimeInfos() {
 		ArrayList<ArrayList<UnlockInfo>> result = new ArrayList<ArrayList<UnlockInfo>>();
 		ArrayList<UnlockInfo> earlydayinfos = new ArrayList<UnlockInfo>();
@@ -147,10 +148,21 @@ public class UnlockInfoManager {
 
 	public long getTodayCount() {
 		if (unlockInfos.size() > 0) {
-			return unlockInfos.get(unlockInfos.size() - 1).totalCount;
+			UnlockInfo info = unlockInfos.get(unlockInfos.size() - 1);
+			return DateUtils.isToday(info.startTime)
+					&& DateUtils.isToday(info.endTime) ? info.totalCount : 0;
 		} else {
 			return 0;
 		}
+	}
+
+	public boolean newStart() {
+		if (unlockInfos.size() > 0) {
+			UnlockInfo info = unlockInfos.get(unlockInfos.size() - 1);
+			return DateUtils.isToday(info.startTime)
+					&& DateUtils.isToday(info.endTime);
+		}
+		return true;
 	}
 
 	public long getYesterdayCount() {

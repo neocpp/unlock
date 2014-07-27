@@ -57,6 +57,10 @@ public class StatisticService extends Service {
 		public void onReceive(Context context, Intent intent) {
 			if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
 				Log.e(TAG, "ACTION_SCREEN_ON");
+				if (UnlockInfoManager.getInstance().newStart()) {
+					totalTime = 0;
+					count = 0;
+				}
 				startTime = System.currentTimeMillis();
 			} else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
 				Log.e(TAG, "ACTION_SCREEN_OFF");

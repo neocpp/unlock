@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">unlock</string>
+    <string name="app_name">unlock360</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_unlock_count">解锁次数</string>
+    <string name="main_title">Unlock360</string>
     <string name="title_use_time">使用时长</string>
     <string name="empty_string"></string>
     <string name="compare_percentage">击败全世界?%用户</string>
@@ -19,5 +20,7 @@
     <string name="detail_list_info_count">第?次解锁</string>
     <string name="detail_list_info_time">第n次 使用?分钟</string>
     <string name="show_detail">显示详情</string>
+    <string name="share_content">我正在使用unlock，你也来试试吧</string>
+    <string name="share_choose">选择分享的应用</string>
 
 </resources>

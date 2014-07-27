@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#0000FF</color><!--蓝色 -->
     <color name="white">#FFFFFF</color><!--白色 -->
+    <color name="light_white">#50FFFFFF</color>
     <color name="green">#00FF00</color>
     <color name="lightblue">#0000CD</color>
 </resources>

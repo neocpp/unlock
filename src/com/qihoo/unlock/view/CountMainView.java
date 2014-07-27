@@ -40,4 +40,10 @@ public class CountMainView extends MainView{
 		return new UnlockDetailListAdapter(context);
 	}
 
+	@Override
+	public int getScore() {
+		// TODO Auto-generated method stub
+		return 60;
+	}
+
 }

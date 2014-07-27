@@ -43,4 +43,10 @@ public class TimeMainView extends MainView {
 		return new TimeDetailListAdapter(context);
 	}
 
+	@Override
+	public int getScore() {
+		// TODO Auto-generated method stub
+		return 90;
+	}
+
 }

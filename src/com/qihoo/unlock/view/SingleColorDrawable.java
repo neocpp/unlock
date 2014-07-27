@@ -12,13 +12,13 @@ import android.graphics.drawable.Drawable;
 import com.qihoo.unlock.utils.IncrementAnimationUtil;
 import com.qihoo.unlock.utils.IncrementAnimationUtil.NotifyData;
 
-public class SlidingHandleDrawable extends Drawable implements Observer {
+public class SingleColorDrawable extends Drawable implements Observer {
 
 	private Rect mRect;
 	private Paint mPaint;
 	private int mColor;
 
-	public SlidingHandleDrawable() {
+	public SingleColorDrawable() {
 		mPaint = new Paint();
 		mColor = IncrementAnimationUtil.getInstance().getColor()[0];
 	}

@@ -17,15 +17,19 @@ public class IncrementAnimationUtil extends Observable {
 		return mColor;
 	}
 
-	private static int[] startColors = { Color.parseColor("#6154DB"), Color.parseColor("#4788F7"),
-			Color.parseColor("#54A3D4"), Color.parseColor("#1DA0B0"), Color.parseColor("#49A990"),
-			Color.parseColor("#81CB63"), Color.parseColor("#E7B34D"), Color.parseColor("#E4904B"),
-			Color.parseColor("#D06C45"), Color.parseColor("#DA563B") };
+	private static int[] startColors = { Color.parseColor("#6154DB"),
+			Color.parseColor("#4788F7"), Color.parseColor("#54A3D4"),
+			Color.parseColor("#1DA0B0"), Color.parseColor("#49A990"),
+			Color.parseColor("#81CB63"), Color.parseColor("#E7B34D"),
+			Color.parseColor("#E4904B"), Color.parseColor("#D06C45"),
+			Color.parseColor("#DA563B") };
 
-	private static int[] endColors = { Color.parseColor("#9144FB"), Color.parseColor("#56A8D5"),
-			Color.parseColor("#49D0C9"), Color.parseColor("#55D7A4"), Color.parseColor("#8EEA92"),
-			Color.parseColor("#DAD75F"), Color.parseColor("#DFD962"), Color.parseColor("#E1C463"),
-			Color.parseColor("#E9A057"), Color.parseColor("#F5A758") };
+	private static int[] endColors = { Color.parseColor("#9144FB"),
+			Color.parseColor("#56A8D5"), Color.parseColor("#49D0C9"),
+			Color.parseColor("#55D7A4"), Color.parseColor("#8EEA92"),
+			Color.parseColor("#DAD75F"), Color.parseColor("#DFD962"),
+			Color.parseColor("#E1C463"), Color.parseColor("#E9A057"),
+			Color.parseColor("#F5A758") };
 
 	public static IncrementAnimationUtil getInstance() {
 		if (instance == null) {
@@ -45,6 +49,7 @@ public class IncrementAnimationUtil extends Observable {
 	}
 
 	public void setChangeLevel(int idx) {
+		idx = idx / 10;
 		if (idx < 0) {
 			mLevel = 0;
 		} else if (idx > LEVEL_COUNT) {
@@ -58,12 +63,16 @@ public class IncrementAnimationUtil extends Observable {
 		mHandler.start();
 	}
 
+	public void endAnimation() {
+		mHandler.end();
+	}
+
 	class ColorHandler extends Handler {
 		private int curLevel;
 		private int[] srcColor = new int[2];
 		private int[] dstColor = new int[2];
 
-		int totalStep = 20;
+		int totalStep = 10;
 		int curStep = 0;
 		long interval = 25; // million second
 
@@ -75,6 +84,10 @@ public class IncrementAnimationUtil extends Observable {
 			isDone = false;
 			removeMessages(0);
 			sendEmptyMessage(0);
+		}
+
+		void end() {
+			removeMessages(0);
 		}
 
 		@Override
@@ -108,7 +121,8 @@ public class IncrementAnimationUtil extends Observable {
 
 			setChanged();
 
-			long p = (long) ((curLevel + curStep / (float) totalStep) / LEVEL_COUNT * 100);
+			long p = (long) ((curLevel + curStep / (float) totalStep)
+					/ LEVEL_COUNT * 100);
 			notifyObservers(new NotifyData(mColor, p, isDone));
 
 		}
@@ -121,8 +135,10 @@ public class IncrementAnimationUtil extends Observable {
 			int blue2 = Color.blue(color2);
 			int green2 = Color.green(color2);
 			int red = red1 + (int) ((red2 - red1) * (step / (float) totalStep));
-			int blue = blue1 + (int) ((blue2 - blue1) * (step / (float) totalStep));
-			int green = green1 + (int) ((green2 - green1) * (step / (float) totalStep));
+			int blue = blue1
+					+ (int) ((blue2 - blue1) * (step / (float) totalStep));
+			int green = green1
+					+ (int) ((green2 - green1) * (step / (float) totalStep));
 
 			return Color.rgb(red, green, blue);
 		}

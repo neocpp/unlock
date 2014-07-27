@@ -159,8 +159,8 @@ public class UnlockInfoManager {
 	public boolean newStart() {
 		if (unlockInfos.size() > 0) {
 			UnlockInfo info = unlockInfos.get(unlockInfos.size() - 1);
-			return DateUtils.isToday(info.startTime)
-					&& DateUtils.isToday(info.endTime);
+			return !(DateUtils.isToday(info.startTime)
+					&& DateUtils.isToday(info.endTime));
 		}
 		return true;
 	}

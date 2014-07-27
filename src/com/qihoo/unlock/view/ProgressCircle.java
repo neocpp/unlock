@@ -52,6 +52,7 @@ public class ProgressCircle extends Drawable implements Observer {
 
 	public void reset() {
 		startAngle = -90;
+		mHandler.endAnimation();
 	}
 
 	@Override
@@ -120,6 +121,10 @@ public class ProgressCircle extends Drawable implements Observer {
 			curStep = 1;
 			oldStartAngle = startAngle;
 			sendEmptyMessage(0);
+		}
+		
+		void endAnimation(){
+			removeMessages(0);
 		}
 
 		@Override

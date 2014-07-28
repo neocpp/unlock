@@ -45,8 +45,7 @@ abstract public class MainView extends LinearLayout {
 		LayoutInflater.from(context).inflate(R.layout.main_view, this);
 
 		todayTotalText = (TextView) findViewById(R.id.unlock_counts);
-		BitmapDrawable bmpDraw = (BitmapDrawable) getResources().getDrawable(
-				R.drawable.circle_under);
+		BitmapDrawable bmpDraw = (BitmapDrawable) getResources().getDrawable(R.drawable.circle_under);
 		Bitmap bmp = bmpDraw.getBitmap();
 		progressBack = new ProgressCircle(bmp);
 		todayTotalText.setBackground(progressBack);
@@ -104,11 +103,9 @@ abstract public class MainView extends LinearLayout {
 				Intent intent = new Intent(Intent.ACTION_SEND);
 				intent.setType("text/plain");
 				intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-				intent.putExtra(Intent.EXTRA_TEXT,
-						mContext.getString(R.string.share_content));
+				intent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.share_content));
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				mContext.startActivity(Intent.createChooser(intent,
-						mContext.getString(R.string.share_choose)));
+				mContext.startActivity(Intent.createChooser(intent, mContext.getString(R.string.share_choose)));
 
 			}
 		});
@@ -125,8 +122,10 @@ abstract public class MainView extends LinearLayout {
 
 		strBuilder.append(String.valueOf(today));
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(0.3f), strBuilder.length()
-				- unit.length(), strBuilder.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(0.3f), strBuilder.length() - unit.length(), strBuilder.length(),
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		Typeface typeFace = Typeface.createFromAsset(mContext.getAssets(), "my_number.TTF");
+		strBuilder.setSpan(new MyTypefaceSpan(typeFace), 0, strBuilder.length() - unit.length(),
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		todayTotalText.setText(strBuilder);
 
@@ -135,11 +134,9 @@ abstract public class MainView extends LinearLayout {
 		String data = String.valueOf(yesterday);
 		strBuilder.append(data);
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length()
-				- data.length() - unit.length(), strBuilder.length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
-				strBuilder.length() - data.length() - unit.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length() - data.length() - unit.length(),
+				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), strBuilder.length() - data.length() - unit.length(),
 				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		yesterdayTotalText.setText(strBuilder);
 
@@ -148,11 +145,9 @@ abstract public class MainView extends LinearLayout {
 		data = String.valueOf(today - yesterday);
 		strBuilder.append(data);
 		strBuilder.append(unit);
-		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length()
-				- data.length() - unit.length(), strBuilder.length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
-				strBuilder.length() - data.length() - unit.length(),
+		strBuilder.setSpan(new RelativeSizeSpan(1.2f), strBuilder.length() - data.length() - unit.length(),
+				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), strBuilder.length() - data.length() - unit.length(),
 				strBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		totdayAddText.setText(strBuilder);
 
@@ -160,8 +155,7 @@ abstract public class MainView extends LinearLayout {
 		strBuilder.clear();
 		String score_percentage = String.valueOf(getScore());
 		strBuilder.append(score.replace("?", score_percentage));
-		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
-				strBuilder.length() - score_percentage.length() - 3,
+		strBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), strBuilder.length() - score_percentage.length() - 3,
 				strBuilder.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		compareScoreText.setText(strBuilder);
 

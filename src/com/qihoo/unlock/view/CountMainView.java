@@ -43,7 +43,7 @@ public class CountMainView extends MainView{
 	@Override
 	public int getScore() {
 		// TODO Auto-generated method stub
-		return 60;
+		return 20;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.qihoo.unlock.view;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.animation.Interpolator;
 
+import com.qihoo.unlock.UnlockApplication;
 import com.qihoo.unlock.utils.DampingInterpolater;
 import com.qihoo.unlock.utils.IncrementAnimationUtil.NotifyData;
 
@@ -29,11 +31,16 @@ public class ProgressCircle extends Drawable implements Observer {
 	private Paint mCircleBarPaint;
 	private float startAngle;
 	private float sweepAngle;
-	private static float BAR_WIDTH = 45;
-	private static float PADDING = 76;
+	private static float BAR_WIDTH = dip2px(UnlockApplication.getContext(), 22);
+	private static float PADDING = dip2px(UnlockApplication.getContext(), 38);;
 	private Bitmap mBitmap;
 	private int mAlpha = 180;
 	private MyHandler mHandler;
+	
+	public static int dip2px(Context context, float dpValue) {  
+		  final float scale = context.getResources().getDisplayMetrics().density;  
+		  return (int) (dpValue * scale + 0.5f);  
+		}  
 
 	public ProgressCircle(Bitmap bitmap) {
 		mCircleBarPaint = new Paint();
@@ -70,7 +77,7 @@ public class ProgressCircle extends Drawable implements Observer {
 					mRect.right - PADDING, mRect.bottom - PADDING);
 
 		}
-
+		
 		canvas.drawBitmap(mBitmap, null, mRect, null);
 
 		canvas.drawArc(mRectF, startAngle, sweepAngle, false, mCircleBarPaint);

@@ -32,7 +32,7 @@ public class MyColorBackground extends Drawable implements Observer {
 			mRect = getBounds();
 		}
 		mLinearGradient = new LinearGradient(mRect.left, mRect.top, mRect.left, mRect.bottom, new int[] { mColor[0],
-				mColor[0], mColor[1] }, new float[] { 0.0f, 0.4f, 1.0f }, Shader.TileMode.CLAMP);
+				mColor[0], mColor[1] }, new float[] { 0.0f, 0.2f, 1.0f }, Shader.TileMode.CLAMP);
 
 		mPaint.setShader(mLinearGradient);
 

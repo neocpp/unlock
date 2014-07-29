@@ -12,33 +12,23 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SlidingDrawer;
-import android.widget.SlidingDrawer.OnDrawerCloseListener;
-import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.TextView;
 
 import com.qihoo.unlock.R;
 import com.qihoo.unlock.utils.IncrementAnimationUtil;
 
 abstract public class MainView extends LinearLayout {
-	private DetailListAdapter mAdapter;
-	private ExpandableListView mListView;
+
 	private TextView todayTotalText;
 	private TextView yesterdayTotalText;
 	private TextView totdayAddText;
 	private TextView compareScoreText;
 	private Context mContext;
-	private SlidingDrawer slidingDrawer;
+
 	ProgressCircle progressBack;
-	MyColorBackground background;
-	SingleColorDrawable slidingDrawable;
 
 	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	public MainView(Context context) {
 		super(context);
 		mContext = context;
@@ -53,47 +43,6 @@ abstract public class MainView extends LinearLayout {
 		totdayAddText = (TextView) findViewById(R.id.today_add);
 
 		compareScoreText = (TextView) findViewById(R.id.compare_score);
-
-		mListView = (ExpandableListView) findViewById(R.id.unlock_detail_list);
-		mListView.setGroupIndicator(null);
-		mAdapter = createAdapter(context);
-		mListView.setAdapter(mAdapter);
-		mListView.setDivider(null);
-		mListView.setChildDivider(null);
-		background = new MyColorBackground();
-		mListView.setBackground(background);
-
-		slidingDrawer = (SlidingDrawer) findViewById(R.id.sliding_detail);
-		final ImageView arrow = (ImageView) findViewById(R.id.sliding_handle_arrow);
-		final TextView handleText = (TextView) findViewById(R.id.sliding_handle_text);
-		final ViewGroup slidingHandle = (ViewGroup) findViewById(R.id.sliding_handle);
-		slidingDrawable = new SingleColorDrawable();
-		slidingHandle.setBackground(slidingDrawable);
-
-		slidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() {
-
-			@Override
-			public void onDrawerOpened() {
-				handleText.setVisibility(View.GONE);
-				arrow.setImageResource(R.drawable.down_arrow);
-				mAdapter.refreshData();
-				mAdapter.notifyDataSetChanged();
-				int n = mListView.getCount();
-				for (int i = 0; i < n; i++) {
-					mListView.expandGroup(i);
-				}
-			}
-		});
-
-		slidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener() {
-
-			@Override
-			public void onDrawerClosed() {
-				handleText.setVisibility(View.VISIBLE);
-				arrow.setImageResource(R.drawable.up_arrow);
-
-			}
-		});
 
 		TextView share = (TextView) findViewById(R.id.share);
 		share.setOnClickListener(new OnClickListener() {
@@ -159,21 +108,15 @@ abstract public class MainView extends LinearLayout {
 				strBuilder.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		compareScoreText.setText(strBuilder);
 
-		mAdapter.notifyDataSetChanged();
-
 		progressBack.reset();
 	}
 
 	public void registerAnimate() {
 		IncrementAnimationUtil.getInstance().addObserver(progressBack);
-		IncrementAnimationUtil.getInstance().addObserver(background);
-		IncrementAnimationUtil.getInstance().addObserver(slidingDrawable);
 	}
 
 	public void unRegisterAnimate() {
 		IncrementAnimationUtil.getInstance().deleteObserver(progressBack);
-		IncrementAnimationUtil.getInstance().deleteObserver(background);
-		IncrementAnimationUtil.getInstance().deleteObserver(slidingDrawable);
 		progressBack.reset();
 	}
 

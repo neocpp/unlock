@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -50,6 +55,11 @@ public class MainActivity extends CustomActivity implements OnPageChangeListener
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main_activity, R.layout.main_titlebar_layout);
+
+		if (!isAddShortCut()) {
+			addShortCut();
+		}
+		
 		mBackground = new MyColorBackground();
 
 		mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
@@ -179,6 +189,52 @@ public class MainActivity extends CustomActivity implements OnPageChangeListener
 
 		IncrementAnimationUtil.getInstance().setChangeLevel(mViewList.get(index).getScore());
 		IncrementAnimationUtil.getInstance().startAnimation();
+	}
+
+	public boolean isAddShortCut() {
+
+		boolean isInstallShortcut = false;
+		final ContentResolver cr = this.getContentResolver();
+
+		int versionLevel = android.os.Build.VERSION.SDK_INT;
+		String AUTHORITY;
+
+		// 2.2以上的系统的文件文件名字是不一样的
+		if (versionLevel >= 8) {
+			AUTHORITY = "com.android.launcher2.settings";
+		} else {
+			AUTHORITY = "com.android.launcher.settings";
+		}
+
+		final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/favorites?notify=true");
+		Cursor c = cr.query(CONTENT_URI, new String[] { "title", "iconResource" }, "title=?",
+				new String[] { getString(R.string.app_name) }, null);
+
+		if (c != null && c.getCount() > 0) {
+			isInstallShortcut = true;
+		}
+		return isInstallShortcut;
+	}
+
+	public void addShortCut() {
+		// 创建快捷方式的Intent
+		Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+		// 不允许重复创建
+		shortcut.putExtra("duplicate", false);
+		// 需要显示的名称
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));
+		Intent shortcutIntent = new Intent();
+		// 以下两行fix Bug 248112——创建快捷方式，两者不关联
+		shortcutIntent.setAction("android.intent.action.MAIN");
+		shortcutIntent.addCategory("android.intent.category.LAUNCHER");
+		shortcutIntent.setClass(this, MainActivity.class);
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+
+		// 快捷方式的图标
+		ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_launcher);
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);
+
+		sendBroadcast(shortcut);
 	}
 
 }

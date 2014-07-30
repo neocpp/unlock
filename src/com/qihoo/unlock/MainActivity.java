@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -59,7 +60,16 @@ public class MainActivity extends CustomActivity implements OnPageChangeListener
 		if (!isAddShortCut()) {
 			addShortCut();
 		}
-		
+
+		ImageView settings = (ImageView) findViewById(R.id.settings_img);
+		settings.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+			}
+		});
+
 		mBackground = new MyColorBackground();
 
 		mViewPager = (ViewPager) findViewById(R.id.main_viewpager);

@@ -22,5 +22,9 @@
     <string name="show_detail">显示详情</string>
     <string name="share_content">我正在使用unlock，你也来试试吧</string>
     <string name="share_choose">选择分享的应用</string>
+    <string name="settings_alarm">提醒设置</string>
+    <string name="count_alarm">解锁次数智能提醒</string>
+    <string name="time_alarm">使用时长智能提醒</string>
+    <string name="settings_common">通用</string>
 
 </resources>

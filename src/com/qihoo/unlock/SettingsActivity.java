@@ -8,6 +8,6 @@ public class SettingsActivity extends CustomActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//setContentView(R.layout.settings_layout, );
+		setContentView(R.layout.settings_layout, R.layout.settings_titlebar);
 	}
 }
